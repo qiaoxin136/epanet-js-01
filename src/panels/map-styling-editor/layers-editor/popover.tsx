@@ -516,7 +516,7 @@ function AddLayer({ onClose }: { onClose: () => void }) {
                     <LayerTypeButton
                       type="XYZ"
                       mode="custom-xyz"
-                      needsUpgrade={!canAddCustomLayers}
+                      needsUpgrade={false}
                       onModeChange={handleModeChange}
                       onUpgrade={handleUpgrade}
                     >
@@ -525,7 +525,7 @@ function AddLayer({ onClose }: { onClose: () => void }) {
                     <LayerTypeButton
                       type="MAPBOX"
                       mode="custom-mapbox"
-                      needsUpgrade={!canAddCustomLayers}
+                      needsUpgrade={false}
                       onModeChange={handleModeChange}
                       onUpgrade={handleUpgrade}
                     >
@@ -534,7 +534,7 @@ function AddLayer({ onClose }: { onClose: () => void }) {
                     <LayerTypeButton
                       type="TILEJSON"
                       mode="custom-tilejson"
-                      needsUpgrade={!canAddCustomLayers}
+                      needsUpgrade={false}
                       onModeChange={handleModeChange}
                       onUpgrade={handleUpgrade}
                     >

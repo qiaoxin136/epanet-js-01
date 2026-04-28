@@ -581,6 +581,8 @@ export function AddLayer() {
           sourceMaxZoom: {},
           color: "#3b82f6",
           lineWidth: 1.5,
+          pointRadius: 5,
+          fillOpacity: 0.3,
         },
       ],
     });
@@ -665,7 +667,7 @@ export function AddLayer() {
                       <LayerTypeButton
                         type="XYZ"
                         mode="custom-xyz"
-                        needsUpgrade={!canAddCustomLayers}
+                        needsUpgrade={false}
                         onModeChange={handleModeChange}
                         onUpgrade={handleUpgrade}
                       >
@@ -674,7 +676,7 @@ export function AddLayer() {
                       <LayerTypeButton
                         type="MAPBOX"
                         mode="custom-mapbox"
-                        needsUpgrade={!canAddCustomLayers}
+                        needsUpgrade={false}
                         onModeChange={handleModeChange}
                         onUpgrade={handleUpgrade}
                       >
@@ -683,7 +685,7 @@ export function AddLayer() {
                       <LayerTypeButton
                         type="TILEJSON"
                         mode="custom-tilejson"
-                        needsUpgrade={!canAddCustomLayers}
+                        needsUpgrade={false}
                         onModeChange={handleModeChange}
                         onUpgrade={handleUpgrade}
                       >
@@ -697,7 +699,7 @@ export function AddLayer() {
                       <LayerTypeButton
                         type="GEOJSON"
                         mode="custom-gis"
-                        needsUpgrade={!canAddCustomLayers}
+                        needsUpgrade={false}
                         onModeChange={handleGisButtonClick}
                         onUpgrade={handleUpgrade}
                       >
@@ -1319,18 +1321,22 @@ const VectorFileItem = ({
           </InlineField>
           {layerConfig.type === "GEOJSON" && (
             <>
+              {/* ── Points ── */}
+              <div className="font-semibold text-xs uppercase tracking-wide text-gray-500 pt-2">
+                Points
+              </div>
               <InlineField
-                name={translate("customLayers.color")}
+                name="Color"
                 layout="fixed-label"
                 labelSize="md"
               >
                 <div className="h-7 border rounded-sm overflow-hidden">
                   <ColorPopover
-                    color={layerConfig.color}
-                    onChange={(color) =>
+                    color={layerConfig.pointColor ?? layerConfig.color}
+                    onChange={(pointColor) =>
                       applyChanges({
                         putLayerConfigs: [
-                          { ...layerConfig, color } as ILayerConfig,
+                          { ...layerConfig, pointColor } as ILayerConfig,
                         ],
                       })
                     }
@@ -1339,7 +1345,57 @@ const VectorFileItem = ({
                 </div>
               </InlineField>
               <InlineField
-                name={`${translate("customLayers.lineWidth")} (px)`}
+                name="Diameter (px)"
+                layout="fixed-label"
+                labelSize="md"
+              >
+                {readonly ? (
+                  <TextField padding="sm">
+                    {localizeDecimal(layerConfig.pointRadius)}
+                  </TextField>
+                ) : (
+                  <NumericField
+                    label="Point diameter"
+                    displayValue={localizeDecimal(layerConfig.pointRadius)}
+                    positiveOnly={true}
+                    isNullable={false}
+                    styleOptions={{ padding: "sm" }}
+                    onChangeValue={(v) =>
+                      applyChanges({
+                        putLayerConfigs: [
+                          { ...layerConfig, pointRadius: v } as ILayerConfig,
+                        ],
+                      })
+                    }
+                  />
+                )}
+              </InlineField>
+
+              {/* ── Lines ── */}
+              <div className="font-semibold text-xs uppercase tracking-wide text-gray-500 pt-2">
+                Lines
+              </div>
+              <InlineField
+                name="Color"
+                layout="fixed-label"
+                labelSize="md"
+              >
+                <div className="h-7 border rounded-sm overflow-hidden">
+                  <ColorPopover
+                    color={layerConfig.lineColor ?? layerConfig.color}
+                    onChange={(lineColor) =>
+                      applyChanges({
+                        putLayerConfigs: [
+                          { ...layerConfig, lineColor } as ILayerConfig,
+                        ],
+                      })
+                    }
+                    readonly={readonly}
+                  />
+                </div>
+              </InlineField>
+              <InlineField
+                name="Thickness (px)"
                 layout="fixed-label"
                 labelSize="md"
               >
@@ -1349,7 +1405,7 @@ const VectorFileItem = ({
                   </TextField>
                 ) : (
                   <NumericField
-                    label={translate("customLayers.lineWidth")}
+                    label="Line thickness"
                     displayValue={localizeDecimal(layerConfig.lineWidth)}
                     positiveOnly={true}
                     isNullable={false}
@@ -1358,6 +1414,59 @@ const VectorFileItem = ({
                       applyChanges({
                         putLayerConfigs: [
                           { ...layerConfig, lineWidth: v } as ILayerConfig,
+                        ],
+                      })
+                    }
+                  />
+                )}
+              </InlineField>
+
+              {/* ── Polygons ── */}
+              <div className="font-semibold text-xs uppercase tracking-wide text-gray-500 pt-2">
+                Polygons
+              </div>
+              <InlineField
+                name="Color"
+                layout="fixed-label"
+                labelSize="md"
+              >
+                <div className="h-7 border rounded-sm overflow-hidden">
+                  <ColorPopover
+                    color={layerConfig.fillColor ?? layerConfig.color}
+                    onChange={(fillColor) =>
+                      applyChanges({
+                        putLayerConfigs: [
+                          { ...layerConfig, fillColor } as ILayerConfig,
+                        ],
+                      })
+                    }
+                    readonly={readonly}
+                  />
+                </div>
+              </InlineField>
+              <InlineField
+                name="Porosity (%)"
+                layout="fixed-label"
+                labelSize="md"
+              >
+                {readonly ? (
+                  <TextField padding="sm">
+                    {String(Math.round(layerConfig.fillOpacity * 100))}
+                  </TextField>
+                ) : (
+                  <NumericField
+                    label="Polygon porosity"
+                    displayValue={String(Math.round(layerConfig.fillOpacity * 100))}
+                    positiveOnly={true}
+                    isNullable={false}
+                    styleOptions={{ padding: "sm" }}
+                    onChangeValue={(v) =>
+                      applyChanges({
+                        putLayerConfigs: [
+                          {
+                            ...layerConfig,
+                            fillOpacity: clamp(Math.round(v) / 100, 0, 1),
+                          } as ILayerConfig,
                         ],
                       })
                     }

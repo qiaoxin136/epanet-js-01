@@ -790,15 +790,16 @@ function addGisLayersToMap(
     map.addLayer(
       gisLayerFill(
         sourceId,
-        layerConfig.color,
+        layerConfig.fillColor ?? layerConfig.color,
         layerConfig.opacity,
         layerConfig.visibility,
+        layerConfig.fillOpacity,
       ),
     );
     map.addLayer(
       gisLayerLine(
         sourceId,
-        layerConfig.color,
+        layerConfig.lineColor ?? layerConfig.color,
         layerConfig.lineWidth,
         layerConfig.opacity,
         layerConfig.visibility,
@@ -807,8 +808,8 @@ function addGisLayersToMap(
     map.addLayer(
       gisLayerCircle(
         sourceId,
-        layerConfig.color,
-        layerConfig.lineWidth,
+        layerConfig.pointColor ?? layerConfig.color,
+        layerConfig.pointRadius,
         layerConfig.opacity,
         layerConfig.visibility,
       ),

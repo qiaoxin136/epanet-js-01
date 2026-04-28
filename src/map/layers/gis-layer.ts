@@ -6,6 +6,7 @@ export function gisLayerFill(
   color: string,
   opacity: number,
   visible: boolean,
+  fillOpacity: number = 0.3,
 ): FillLayer {
   return {
     id: `${sourceId}-fill`,
@@ -14,7 +15,7 @@ export function gisLayerFill(
     filter: ["==", "$type", "Polygon"],
     paint: {
       "fill-color": color,
-      "fill-opacity": opacity * 0.3,
+      "fill-opacity": opacity * fillOpacity,
     },
     layout: {
       visibility: visible ? "visible" : "none",

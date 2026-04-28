@@ -114,12 +114,7 @@ export function Hints() {
     case Mode.NONE: {
       if (selection.type === "none") {
         if (hydraulicModel.assets.size === 0) {
-          return (
-            <Hint
-              hintId={"EMPTY_STATE"}
-              text={translate("onboardingSelectDrawing", ".")}
-            />
-          );
+          return null;
         } else {
           if (simulation.status === "idle") {
             return (

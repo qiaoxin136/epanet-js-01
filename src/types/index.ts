@@ -80,8 +80,18 @@ export const zLayerConfig = z.discriminatedUnion("type", [
   }),
   zLayerConfigCommon.extend({
     type: z.literal("GEOJSON"),
+    // Shared fallback color
     color: z.string().default("#3b82f6"),
+    // Per-geometry type colors (override `color` when set)
+    pointColor: z.string().optional(),
+    lineColor: z.string().optional(),
+    fillColor: z.string().optional(),
+    // Point styling
+    pointRadius: z.number().default(5),
+    // Line styling
     lineWidth: z.number().default(1.5),
+    // Polygon styling — fillOpacity controls "porosity" (0 = transparent, 1 = solid)
+    fillOpacity: z.number().default(0.3),
     labelProperty: z.string().optional(),
   }),
 ]);
