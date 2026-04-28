@@ -483,7 +483,7 @@ export function AddLayer() {
   const [mode, setMode] = useAtom(layerModeAtom);
   const userTracking = useUserTracking();
   const setDialogState = useSetAtom(dialogAtom);
-  const { canAddCustomLayers } = usePermissions();
+  usePermissions();
 
   const isCustomLayersPaywallOn = useFeatureFlag("FLAG_CUSTOM_LAYERS_PAYWALL");
 
@@ -1325,11 +1325,7 @@ const VectorFileItem = ({
               <div className="font-semibold text-xs uppercase tracking-wide text-gray-500 pt-2">
                 Points
               </div>
-              <InlineField
-                name="Color"
-                layout="fixed-label"
-                labelSize="md"
-              >
+              <InlineField name="Color" layout="fixed-label" labelSize="md">
                 <div className="h-7 border rounded-sm overflow-hidden">
                   <ColorPopover
                     color={layerConfig.pointColor ?? layerConfig.color}
@@ -1375,11 +1371,7 @@ const VectorFileItem = ({
               <div className="font-semibold text-xs uppercase tracking-wide text-gray-500 pt-2">
                 Lines
               </div>
-              <InlineField
-                name="Color"
-                layout="fixed-label"
-                labelSize="md"
-              >
+              <InlineField name="Color" layout="fixed-label" labelSize="md">
                 <div className="h-7 border rounded-sm overflow-hidden">
                   <ColorPopover
                     color={layerConfig.lineColor ?? layerConfig.color}
@@ -1425,11 +1417,7 @@ const VectorFileItem = ({
               <div className="font-semibold text-xs uppercase tracking-wide text-gray-500 pt-2">
                 Polygons
               </div>
-              <InlineField
-                name="Color"
-                layout="fixed-label"
-                labelSize="md"
-              >
+              <InlineField name="Color" layout="fixed-label" labelSize="md">
                 <div className="h-7 border rounded-sm overflow-hidden">
                   <ColorPopover
                     color={layerConfig.fillColor ?? layerConfig.color}
@@ -1456,7 +1444,9 @@ const VectorFileItem = ({
                 ) : (
                   <NumericField
                     label="Polygon porosity"
-                    displayValue={String(Math.round(layerConfig.fillOpacity * 100))}
+                    displayValue={String(
+                      Math.round(layerConfig.fillOpacity * 100),
+                    )}
                     positiveOnly={true}
                     isNullable={false}
                     styleOptions={{ padding: "sm" }}

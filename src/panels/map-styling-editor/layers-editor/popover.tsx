@@ -447,7 +447,7 @@ function AddLayer({ onClose }: { onClose: () => void }) {
   const [mode, setMode] = useAtom(layerModeAtom);
   const userTracking = useUserTracking();
   const setDialogState = useSetAtom(dialogAtom);
-  const { canAddCustomLayers } = usePermissions();
+  usePermissions();
 
   const handleUpgrade = () => {
     userTracking.capture({
