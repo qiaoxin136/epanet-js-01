@@ -24,7 +24,6 @@ import {
   StyledPopoverContent,
 } from "src/components/elements";
 import { RangeMode } from "src/map/symbology/range-color-rule";
-import { LayersEditor } from "./layers-editor";
 import {
   CollapsibleSection,
   InlineField,
@@ -80,7 +79,6 @@ const MapStylingSectionWrapper = ({
 };
 
 export const MapStylingEditor = () => {
-  const translate = useTranslate();
   const isGridOn = useAtomValue(showGridAtom);
   const isPlaying = useAtomValue(isPlayingAtom);
 
@@ -97,14 +95,6 @@ export const MapStylingEditor = () => {
         />
         <CustomerPointsSection readonly={isPlaying} />
         {!isGridOn && <ElevationsEditor />}
-        {!isGridOn && (
-          <MapStylingSectionWrapper
-            title={translate("layers")}
-            section="layers"
-          >
-            <LayersEditor />
-          </MapStylingSectionWrapper>
-        )}
         <ProjectionSection />
       </SectionList>
     </div>
